@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+
+    <form action="/file" method="POST" enctype="multipart/form-data">
+
+        <input type="file" name="file">
+        <input type="submit" value="Submit">
+
+    </form>
+    <tr th:each="record: ${records}">
+        <td th:text="${record.invoiceNo}" />
+    </tr>
+
+</body>
+</html>

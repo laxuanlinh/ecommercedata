@@ -1,16 +1,40 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-<head></head>
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css}"/>
+
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/file.js}"></script>
+</head>
 <body>
 
-    <form action="/file" method="POST" enctype="multipart/form-data">
+    <form id="form" action="/file" method="POST" enctype="multipart/form-data">
 
         <input type="file" name="file">
         <input type="submit" value="Submit">
 
     </form>
-    <tr th:each="record: ${records}">
-        <td th:text="${record.invoiceNo}" />
-    </tr>
+    <td th:text="${#lists.size(records)}">[Engine Size]</td>
+    <p id="update">0%</p>
+
+    <table id="table" class="display">
+        <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+        </tr>
+        </tbody>
+    </table>
 
 </body>
 </html>

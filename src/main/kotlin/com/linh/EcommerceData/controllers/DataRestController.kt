@@ -1,8 +1,13 @@
 package com.linh.EcommerceData.controllers
 
+import com.linh.EcommerceData.models.Record
+import com.linh.EcommerceData.models.UpdateMessageDTO
 import com.linh.EcommerceData.services.DataService
 import com.rabbitmq.client.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
@@ -22,6 +27,31 @@ class DataRestController(
         private val rabbitMQConnectionFactory: ConnectionFactory
 ) {
 
+    @GetMapping("/records")
+    fun getRecords(@RequestParam("search") searchPhrase : String,
+                   @RequestParam("size")pageSize : Int,
+                   @RequestParam("pageNumber")pageNumber: Int) : SseEmitter{
+        val emitter = SseEmitter()
+        val executors = Executors.newSingleThreadExecutor()
+
+        executors.execute{
+            try {
+                val count = dataService.getCountRecords(searchPhrase)
+                emitter.send(UpdateMessageDTO("50"))
+                val records = dataService.getRecords(searchPhrase, pageSize, pageNumber)
+                emitter.send(UpdateMessageDTO("100"))
+                emitter.send(PageImpl<Record>(records, PageRequest.of(pageNumber, pageSize), count))
+            } catch (e: IOException){
+                emitter.completeWithError(e)
+            } finally {
+                emitter.complete()
+            }
+        }
+
+        executors.shutdown()
+        return emitter
+    }
+
     @GetMapping("/file_process_update/{updateId}")
     fun updateFileProcess(@PathVariable("updateId") updateId: String): SseEmitter {
         val emitter = SseEmitter()
@@ -35,7 +65,7 @@ class DataRestController(
                 val consumerTag = "SimpleConsumer"
                 val deliverCallback = DeliverCallback { consumerTag: String?, delivery: Delivery ->
                     val message = String(delivery.body, StandardCharsets.UTF_8)
-                    emitter.send(message)
+                    emitter.send(UpdateMessageDTO(message))
                     if ("100".equals(message)){
                         emitter.complete()
                         executor.shutdown()
@@ -59,4 +89,6 @@ class DataRestController(
         dataService.processFile(file, uuid)
         return uuid
     }
+
+
 }

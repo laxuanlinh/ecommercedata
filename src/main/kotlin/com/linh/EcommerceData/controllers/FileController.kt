@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable
+import java.util.*
+import java.util.stream.Stream
 
 @Controller
 @RequestMapping("")
@@ -20,8 +22,6 @@ class FileController(
 
     @GetMapping("")
     fun index(model: Model): String {
-//        val reactiveDataDrivenMode  : IReactiveDataDriverContextVariable = ReactiveDataDriverContextVariable( dataService.getRecords(), 10)
-        model.addAttribute("records", dataService.getRecords())
         return "index"
     }
 

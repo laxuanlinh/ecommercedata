@@ -1,40 +1,41 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css}"/>
-
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}" crossorigin="anonymous"></script>
-    <script type="text/javascript" th:src="@{https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js}"></script>
+    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css}">
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js}"></script>
     <script type="text/javascript" th:src="@{/file.js}"></script>
 </head>
 <body>
-
+<div class="container">
     <form id="form" action="/file" method="POST" enctype="multipart/form-data">
 
         <input type="file" name="file">
         <input type="submit" value="Submit">
 
     </form>
-    <td th:text="${#lists.size(records)}">[Engine Size]</td>
-    <p id="update">0%</p>
-
-    <table id="table" class="display">
+    <div class="progress" style="height: 20px">
+        <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <span id="progressText">60% Complete</span>
+        </div>
+    </div>
+    <input type="text" id="search"/>
+    <button id="searchBtn">Search</button>
+    <table id="table" data-toggle="table" class="display">
         <thead>
-        <tr>
-            <th>Column 1</th>
-            <th>Column 2</th>
-        </tr>
+            <tr>
+                <th data-field="invoiceNo">Invoice No</th>
+                <th data-field="stockCode">Stock code</th>
+                <th data-field="description">Description</th>
+                <th data-field="quantity">Quantity</th>
+                <th data-field="invoiceDate">Invoice Date</th>
+                <th data-field="unitPrice">Unit Price</th>
+                <th data-field="customerID">Customer ID</th>
+                <th data-field="country">Country</th>
+            </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td>
-        </tr>
-        <tr>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
-        </tr>
-        </tbody>
     </table>
-
+    <button id="prev"><</button>Page <span id="pageNumber">1</span> of <span id="totalPage">1</span><button id="next">></button>
+</div>
 </body>
 </html>

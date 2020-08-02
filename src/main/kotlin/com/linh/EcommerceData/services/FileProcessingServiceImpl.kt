@@ -1,5 +1,6 @@
 package com.linh.EcommerceData.services
 
+import com.linh.EcommerceData.exceptions.RabbitMQException
 import com.linh.EcommerceData.models.Record
 import com.linh.EcommerceData.repositories.RecordRepository
 import com.opencsv.CSVReader
@@ -9,6 +10,7 @@ import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
+import java.io.IOException
 import java.io.InputStreamReader
 import java.lang.Exception
 import java.nio.charset.StandardCharsets
@@ -35,7 +37,6 @@ class FileProcessingServiceImpl (
 
         var nextLine : Array<String>
         this.skipHeader(csvReader)
-        try{
             do {
                 nextLine = csvReader.readNext() ?: break
                 val record = this.getRecordFromLine(nextLine)
@@ -46,11 +47,7 @@ class FileProcessingServiceImpl (
                     queueChannel.basicPublish("", updateId, null, currentPercentage.toString().toByteArray(StandardCharsets.UTF_8))
                 }
             } while (true)
-        } catch (e:Exception){
-            e.printStackTrace()
-        } finally {
-            queueChannel.close()
-        }
+        queueChannel.close()
     }
 
     private fun currentPercentageIncreasesBy(currentLineCount : Long, totalLineCount : Long, currentPercentage : Long, increaseBy : Int) : Boolean{
@@ -62,14 +59,14 @@ class FileProcessingServiceImpl (
         return CSVReader(bufferedReader)
     }
 
-    private fun getTotalLineCount(bytes: ByteArray) : Long {
-        val bufferedReader = this.getBufferedReader(bytes)
-        return bufferedReader.lines().count()
-    }
-
     private fun getBufferedReader(bytes: ByteArray) : BufferedReader{
         val fileInputStream  = ByteArrayInputStream(bytes)
         return BufferedReader(InputStreamReader(fileInputStream))
+    }
+
+    private fun getTotalLineCount(bytes: ByteArray) : Long {
+        val bufferedReader = this.getBufferedReader(bytes)
+        return bufferedReader.lines().count()
     }
 
     private fun getRecordFromLine(nextLine : Array<String>) : Record = Record(nextLine[0],

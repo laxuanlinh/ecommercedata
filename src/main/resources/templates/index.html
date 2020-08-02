@@ -8,34 +8,46 @@
 </head>
 <body>
 <div class="container">
-    <form id="form" action="/file" method="POST" enctype="multipart/form-data">
-
-        <input type="file" name="file">
-        <input type="submit" value="Submit">
-
-    </form>
-    <div class="progress" style="height: 20px">
-        <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-            <span id="progressText">60% Complete</span>
+    <div class="col-sm-12">
+        <div class="mt-3">
+        <form id="form" action="/file" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Submit">
+        </form>
         </div>
+        <div class="progress fade in" style="height: 20px">
+            <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <span id="progressText">60% Complete</span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-6">
+                <div class="float-left">
+                    <input type="text" id="search"/>
+                    <button id="searchBtn">Search</button>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="float-right">
+                    <button id="prev"><</button>Page <span id="pageNumber">1</span> of <span id="totalPage">1</span><button id="next">></button>
+                </div>
+            </div>
+        </div>
+        <table id="table" data-toggle="table" class="display" style="max-height:500px">
+            <thead>
+                <tr>
+                    <th data-field="invoiceNo">Invoice No</th>
+                    <th data-field="stockCode">Stock code</th>
+                    <th data-field="description">Description</th>
+                    <th data-field="quantity">Quantity</th>
+                    <th data-field="invoiceDate">Invoice Date</th>
+                    <th data-field="unitPrice">Unit Price</th>
+                    <th data-field="customerID">Customer ID</th>
+                    <th data-field="country">Country</th>
+                </tr>
+            </thead>
+        </table>
     </div>
-    <input type="text" id="search"/>
-    <button id="searchBtn">Search</button>
-    <table id="table" data-toggle="table" class="display">
-        <thead>
-            <tr>
-                <th data-field="invoiceNo">Invoice No</th>
-                <th data-field="stockCode">Stock code</th>
-                <th data-field="description">Description</th>
-                <th data-field="quantity">Quantity</th>
-                <th data-field="invoiceDate">Invoice Date</th>
-                <th data-field="unitPrice">Unit Price</th>
-                <th data-field="customerID">Customer ID</th>
-                <th data-field="country">Country</th>
-            </tr>
-        </thead>
-    </table>
-    <button id="prev"><</button>Page <span id="pageNumber">1</span> of <span id="totalPage">1</span><button id="next">></button>
 </div>
 </body>
 </html>

@@ -48,8 +48,13 @@ $(document).ready(function() {
             if(percentage == 100){
                 source.close();
                 search();
+                $(".progress").addClass("in");
+                $(".progress").removeClass("show");
             }
-
+            if($(".progress").hasClass("fade in")){
+                $(".progress").removeClass("fade in");
+                $(".progress").addClass("fade show");
+            }
             $("#progressBar").css("width", percentage+"%");
             $("#progressText").text(percentage+"% complete");
         };
@@ -69,6 +74,10 @@ $(document).ready(function() {
             result = JSON.parse(event.data);
             if(result.message !== undefined){
                 var percentage = result.message;
+                if($(".progress").hasClass("fade in")){
+                    $(".progress").removeClass("fade in");
+                    $(".progress").addClass("fade show");
+                }
                 $("#progressBar").css("width", percentage+"%");
                 $("#progressText").text(percentage+"% complete");
             } else if(result.content !== undefined){
@@ -77,7 +86,12 @@ $(document).ready(function() {
                 currentPageNumber = result.pageable.pageNumber;
                 totalPageNumber = result.totalPages;
                 $("#pageNumber").text(currentPageNumber+1);
-                $("#totalPage").text(result.totalPages == 0 ? 1 : totalPageNumber)
+                $("#totalPage").text(result.totalPages == 0 ? 1 : totalPageNumber);
+
+                setTimeout(function(){
+                    $(".progress").removeClass("fade show");
+                    $(".progress").addClass("fade in");
+                }, 1000)
             }
         };
     }

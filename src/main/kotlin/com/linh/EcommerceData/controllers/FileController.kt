@@ -14,14 +14,10 @@ import java.util.stream.Stream
 
 @Controller
 @RequestMapping("")
-class FileController(
-        @Autowired
-        private val dataService : DataService
-) {
-
+class FileController {
 
     @GetMapping("")
-    fun index(model: Model): String {
+    fun index(): String {
         return "index"
     }
 

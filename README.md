@@ -1,4 +1,4 @@
-# ecommercedata
+# ECommerce Data
 
 ## How to run:
 

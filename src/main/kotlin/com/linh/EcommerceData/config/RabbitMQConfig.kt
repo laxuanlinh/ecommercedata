@@ -1,6 +1,5 @@
 package com.linh.EcommerceData.config
 
-import com.rabbitmq.client.Channel
 import com.rabbitmq.client.ConnectionFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

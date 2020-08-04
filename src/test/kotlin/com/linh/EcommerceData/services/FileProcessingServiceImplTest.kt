@@ -1,11 +1,9 @@
 package com.linh.EcommerceData.services
 
 import com.linh.EcommerceData.TestUtility
-import com.linh.EcommerceData.exceptions.RabbitMQException
 import com.linh.EcommerceData.models.Record
 import com.linh.EcommerceData.repositories.RecordRepository
 import com.rabbitmq.client.AMQP
-import com.rabbitmq.client.AMQP.BasicProperties
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
@@ -13,10 +11,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
-import java.lang.RuntimeException
 
 @RunWith(MockitoJUnitRunner::class)
 class FileProcessingServiceImplTest {
@@ -44,16 +40,6 @@ class FileProcessingServiceImplTest {
     fun shouldReadFile(){
         fileProcessingServiceImpl.processFileAsync(bytes, "updateId")
     }
-
-//    @Test(expected = RabbitMQException::class)
-//    fun shouldThrowExceptionWhenPublishFails(){
-//        Mockito.doThrow(RuntimeException()).`when`(channel).basicPublish(Mockito.anyString(),
-//                                    Mockito.anyString(),
-//                                    TestUtility.any(BasicProperties::class.java),
-//                                    TestUtility.any(ByteArray::class.java))
-//        fileProcessingServiceImpl.processFileAsync(bytes, "updateId")
-//
-//    }
 
 
 

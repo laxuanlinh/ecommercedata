@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableAsync
 
 @SpringBootApplication
 @EnableAsync
-class ECommerceDataApplication
+open class ECommerceDataApplication
 
 fun main(args: Array<String>) {
 	runApplication<ECommerceDataApplication>(*args)
